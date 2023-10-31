@@ -1,3 +1,4 @@
+import { Box, Text } from "@chakra-ui/react"
 import React, { useCallback } from "react"
 
 interface JSONExplorerProps {
@@ -45,7 +46,7 @@ const JSONExplorer: React.FC<JSONExplorerProps> = ({ data, onSelect }) => {
         // Render object keys
       } else if (typeof data === "object" && data !== null) {
         return (
-          <div>
+          <Box>
             {renderIndent(depth * INDENT_SIZE)}
             {"{"}
             {Object.keys(data).map((key) => {
@@ -54,25 +55,27 @@ const JSONExplorer: React.FC<JSONExplorerProps> = ({ data, onSelect }) => {
                 (typeof (data as JSONObject)[key] === "object" || Array.isArray((data as JSONObject)[key])) &&
                 (data as JSONObject)[key] !== null
               return (
-                <div key={key}>
+                <Box key={key}>
                   {renderIndent((depth + 1) * INDENT_SIZE)}
-                  <span
-                    style={hasChildren ? {} : { color: "blue", cursor: "pointer" }}
+                  <Text 
+                    as={"span"}
+                    color={hasChildren ? "blue" : 'inherit'}
+                    cursor={ hasChildren ? "pointer" : 'default'}
                     onClick={() => {
                       if (hasChildren) return
                       // if path is root level, don't add a dot
                       handleKeyClick(path ? `${path}.${key}` : key, data[key] as JSONPrimitive)
                     }}>
                     "{key}"
-                  </span>
+                  </Text>
                   {/* if path is root level, don't add a dot */}:{" "}
                   {renderJSON(data[key] as JSONObject, path ? `${path}.${key}` : key, depth + 1)},
-                </div>
+                </Box>
               )
             })}
             {renderIndent(depth * INDENT_SIZE)}
             {"}"}
-          </div>
+          </Box>
         )
       } else {
         // render single values, stringify them to get the correct formatting (quotes for strings, no quotes for numbers or booleans)
@@ -83,9 +86,9 @@ const JSONExplorer: React.FC<JSONExplorerProps> = ({ data, onSelect }) => {
   )
 
   return (
-    <div>
+    <Box>
       <pre>{renderJSON(data)}</pre>
-    </div>
+    </Box>
   )
 }
 

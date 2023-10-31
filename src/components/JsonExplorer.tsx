@@ -48,26 +48,28 @@ const JSONExplorer: React.FC<JSONExplorerProps> = ({ data, onSelect }) => {
           <div>
             {renderIndent(depth * INDENT_SIZE)}
             {"{"}
-              {Object.keys(data).map((key) => {
+            {Object.keys(data).map((key) => {
               // If the keys value is either an object or an array, render it recursively, also only add styling and onClick if it's not a nested type
-                const hasChildren = (typeof (data as JSONObject)[key] === "object" || Array.isArray((data as JSONObject)[key])) && (data as JSONObject)[key] !== null
-                return (
-                  <div key={key}>
-                    {renderIndent((depth + 1) * INDENT_SIZE)}
-                    <span
-                      style={hasChildren ? {} : { color: "blue", cursor: "pointer" }}
-                      onClick={() => {
-                        if (hasChildren) return
-                        // if path is root level, don't add a dot
-                        handleKeyClick(path ? `${path}.${key}` : key, data[key] as JSONPrimitive)
-                      }}>
-                      "{key}"
-                    </span>
-                    {/* if path is root level, don't add a dot */}
-                    : {renderJSON(data[key] as JSONObject, path ? `${path}.${key}` : key, depth + 1)},
-                  </div>
-                )
-              })}
+              const hasChildren =
+                (typeof (data as JSONObject)[key] === "object" || Array.isArray((data as JSONObject)[key])) &&
+                (data as JSONObject)[key] !== null
+              return (
+                <div key={key}>
+                  {renderIndent((depth + 1) * INDENT_SIZE)}
+                  <span
+                    style={hasChildren ? {} : { color: "blue", cursor: "pointer" }}
+                    onClick={() => {
+                      if (hasChildren) return
+                      // if path is root level, don't add a dot
+                      handleKeyClick(path ? `${path}.${key}` : key, data[key] as JSONPrimitive)
+                    }}>
+                    "{key}"
+                  </span>
+                  {/* if path is root level, don't add a dot */}:{" "}
+                  {renderJSON(data[key] as JSONObject, path ? `${path}.${key}` : key, depth + 1)},
+                </div>
+              )
+            })}
             {renderIndent(depth * INDENT_SIZE)}
             {"}"}
           </div>

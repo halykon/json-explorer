@@ -33,9 +33,11 @@ function App() {
         <FormLabel>Property</FormLabel>
         <Input placeholder="data.fields[0].id" value={path} onChange={(e) => setPath(e.target.value)} />
       </FormControl>
-      <Text size="sm" color="blackAlpha.600">{String(value)}</Text>
+      <Text size="sm" color="blackAlpha.600">
+        {String(value)}
+      </Text>
       <Box border="1px solid" borderColor={"blackAlpha.300"} borderRadius={"lg"} p="3">
-      <JSONExplorer data={jsonData} onSelect={(path) => setPath(path)}/>
+        <JSONExplorer data={jsonData} onSelect={(path) => setPath(path)} />
       </Box>
     </Container>
   )
